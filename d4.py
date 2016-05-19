@@ -8,6 +8,9 @@ Created on Thu Nov 12 19:19:26 2015
 import numpy as np
 import math
 
+# the n-d routines are implemented based on the stuff published at https://ef.gy/
+# and explained by Magnus Deininger in his ccc talk
+
 
 def calc_basis(dim, n):
     res = np.zeros(dim)
@@ -69,13 +72,13 @@ def gen_viewmatrix(dim, to, frm, eyeangle, *args):
     res = np.dot(gen_translation_matrix(dim, -frm), np.dot(gen_homogen_matrix(3, calc_lookat(dim, to, frm, *args)),calc_perspective(dim, eyeangle)))
     return res
 
-#def gen_rotation_matrix(angle, u, v):
-#    res = np.diag([1.,1.,1.,1.,1.])
-#    u = np.append(u, [0.])
-#    v = np.append(v, [0.])
-#    res += math.sin(angle)*(np.kron(v, u) - np.kron(u, v)).reshape((5,5))
-#    + (math.cos(angle) - 1.0)*(np.kron(u, u) + np.kron(v, v)).reshape((5,5))
-#    return res
+
+
+def gen_rotation_matrix(dim, angle, u, v):
+    mat = np.diag(np.ones(dim))
+    mat += math.sin(angle)*(np.kron(v, u) - np.kron(u, v)).reshape((dim, dim))
+    mat += (math.cos(angle) - 1.0)*(np.kron(u, u) + np.kron(v, v)).reshape((dim, dim))
+    return gen_homogen_matrix(dim, mat)
 
 
 class Camera4D(object):
@@ -195,7 +198,7 @@ def main():
     print(calc_perspective(4, 45*math.pi/180.0))
     print(gen_viewmatrix(3, np.array([1,1,1]), np.array([0,0,0]), 45*math.pi/180.0, np.array([0, -1, 1])))
     #print(gen_translation_matrix(4, np.array([1,2,3,4])))
-    #print(gen_rotation_matrix(0.1, np.array([1,0,0,0]),np.array([0,1,0,0])))
+    print(gen_rotation_matrix(4, 0.1, np.array([1,0,0,0]),np.array([0,0,0,1])))
 
 
 if __name__ == "__main__":
