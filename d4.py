@@ -8,6 +8,7 @@ Created on Thu Nov 12 19:19:26 2015
 import numpy as np
 import math
 import pygame
+import sys
 
 from pygame.locals import *
 
@@ -208,7 +209,7 @@ class PygameApp(object):
         gluPerspective(90, (self.display[0]/self.display[1]), 0.1, 50.0)
 
 
-        #glTranslatef(0.0,0.0, -20.0) # -5
+        glTranslatef(0.0,0.0, -20.0) # -5
 
 
         glEnable( GL_DEPTH_TEST )
@@ -220,14 +221,14 @@ class PygameApp(object):
     
         glColorMaterial(GL_FRONT, GL_AMBIENT)
         glColorMaterial(GL_FRONT, GL_DIFFUSE)
-        #glColorMaterial(GL_FRONT, GL_SPECULAR)
+        glColorMaterial(GL_FRONT, GL_SPECULAR)
 
 
         #// Create light components
 
-        ambientLight = ( 1.0, 1.0, 1.0, 1.0 )
-        diffuseLight = ( 0.8, 0.8, 0.8, 1.0 )
-        specularLight = ( 0.5, 0.5, 0.5, 1.0 )
+        self.ambientLight = ( 1.0, 1.0, 1.0, 1.0 )
+        self.diffuseLight = ( 0.8, 0.8, 0.8, 1.0 )
+        self.specularLight = ( 0.5, 0.5, 0.5, 1.0 )
 
         #// Assign created components to GL_LIGHT0
 
@@ -274,10 +275,10 @@ class PygameApp(object):
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
 
 
-            #glLightfv(GL_LIGHT0, GL_AMBIENT, self.ambientLight)
-            #glLightfv(GL_LIGHT0, GL_DIFFUSE, self.diffuseLight)
-            #glLightfv(GL_LIGHT0, GL_SPECULAR, self.specularLight)
-            #glLightfv(GL_LIGHT0, GL_POSITION, position)
+            glLightfv(GL_LIGHT0, GL_AMBIENT, self.ambientLight)
+            glLightfv(GL_LIGHT0, GL_DIFFUSE, self.diffuseLight)
+            glLightfv(GL_LIGHT0, GL_SPECULAR, self.specularLight)
+            glLightfv(GL_LIGHT0, GL_POSITION, (0., 0. -100.))
 
             self.drawText((400, 200, -100), (255, 0, 0, 255), (0, 0, 0, 0), str(counter))
             self.drawText((350, 180, 0), (0, 255, 0, 255), (0, 0, 0, 0), str(counter))
@@ -353,13 +354,13 @@ def main():
 
     pm = gen_viewmatrix_proj(4, np.array([0,0,-10,0]), np.array([1/2,1/2,1/2,1/2]), np.array([1, 0, 0, 0]), np.array([0, 1, 0, 0]))
 
-    #t = Tet(4, np.array([[0,0,0,0], [1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]]))
-    #print(t.points)
-    #print(t.getEdges())
-    #print(t.getEdgeProperties(t.edges[9]))
-    #for a in t.edges:
-    #    print(t.getEdgeIntersectionAfterProj(4, a, pm))
-    #print("blub")
+    t = Tet(4, np.array([[0,0,0,0], [1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]]))
+    print(t.points)
+    print(t.getEdges())
+    print(t.getEdgeProperties(t.edges[9]))
+    for a in t.edges:
+        print(t.getEdgeIntersectionAfterProj(4, a, pm))
+    print("blub")
 
     pg = PygameApp()
     pg.run()
