@@ -15,8 +15,8 @@ from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
 
-# the n-d routines are implemented based on the stuff published at https://ef.gy/
-# and explained by Magnus Deininger in his ccc talk
+# the n-d routines are implemented based on the stuff published at https://ef.gy/ (https://ef.gy/linear-algebra:perspective-projections)
+# and explained by Magnus Deininger in his ccc talk at 31c3
 
 
 def calc_basis(dim, n):
