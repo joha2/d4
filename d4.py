@@ -19,6 +19,8 @@ from OpenGL.GLU import *
 # and explained by Magnus Deininger in his ccc talk at 31c3
 
 
+# first step show point clouds
+
 def calc_basis(dim, n):
     res = np.zeros(dim)
     res[n] = 1.0
